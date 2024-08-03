@@ -48,34 +48,3 @@ print("\nLoading Complete! Number of documents loaded:", len(documents))
 if documents:
     print("\nHere's a preview of the first document:")
     print(documents[0].page_content)
-
-# Splitting the loaded documents into smaller chunks 
-print("\nSplitting documents into chunks...")
-text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=100)
-docs = text_splitter.split_documents(documents)
-print(f"Number of chunks created: {len(docs)}\n")
-
-# Creating embeddings for the document chunks using HuggingFaceEmbeddings
-print("Creating embeddings for each document chunk...")
-#embeddings = HuggingFaceEmbeddings(model_name="all-mpnet-base-v2")  # Using LangChain's version
-embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-
-# Building a FAISS vectorstore to store the embeddings for efficient similarity search
-print("\nBuilding the FAISS vectorstore...")
-db = FAISS.from_documents(docs, embeddings) # Pass document chunks directly to FAISS
-print("Vectorstore creation complete!\n")
-
-# Loading the language model (LLM) for question-answering
-print("Loading the Language Model (LLM)...\n")
-llm = get_LLM()
-
-# Constructing a RetrievalQA chain combining the vectorstore retriever and the LLM
-print("Setting up the Question-Answering Chain...")
-retriever = db.as_retriever()
-qa_chain = retriever | llm
-print("Ready to answer questions!\n")
-# Asking a question about PaLM and retrieving the answer using the QA chain
-query = "What is PaLM?"
-response = qa_chain.invoke({"query": query})
-print("Q:", query)
-print("A:", response['result'], "\n")  # Printing the answer with a label
