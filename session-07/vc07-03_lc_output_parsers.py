@@ -30,12 +30,13 @@ prompt_template = PromptTemplate.from_template(
 
     Your answer should be valid JSON and should follow this format:
 
-    json_format:
+    example json_format:
+    {{"name:" "Joe", "age": 40, "city": "SFO"}}
     """
 )
 
 # 2. Create model
-model = get_LLM('llama3.1')
+model = get_LLM('gemma2:2b')
 
 # 3. Create parser
 parser = PydanticOutputParser(pydantic_object=PersonInfo)
