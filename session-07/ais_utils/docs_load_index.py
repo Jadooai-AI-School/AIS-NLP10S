@@ -10,7 +10,15 @@ from langchain_community.document_loaders import (
 from langchain.schema import Document
 from typing import Dict, List
 
-def load_documents(directories: Dict[str, str]) -> List[Document]:
+doc_dict = {
+        "pdf": "data/",
+        "txt": "data/",
+        "csv": "data/",
+        "docx": "data/",
+        "pptx": "data/"
+        }
+
+def load_documents(directories: Dict[str, str]=doc_dict) -> List[Document]:
     """Loads documents from specified directories, extracting essential metadata.
 
     Args:
@@ -58,10 +66,12 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from typing import List
 import os
 import torch
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print('device:', device)
 db_path = '../data/index.db'
 
+   
 def create_index(documents: List[Document], split_size: int, overlap: int, index_name = 'my_index', persist:bool =True) -> FAISS:
     """Splits documents into chunks, creates a FAISS index, and stores it.
 
@@ -120,7 +130,7 @@ def load_index_db(index_name: str='my_index') -> FAISS:
 if __name__ == "__main__":
     import os
     os.system("clear")
-        
+    
     doc_dict = {
         "pdf": "data/",
         "txt": "data/",

@@ -1,4 +1,4 @@
-default_model = "gemma:2b"
+default_model = "gemma2:2b"
 ###########################################################################################################
 # This is a Langchain LLM wrapper for the Ollama model
 from langchain_community.llms import Ollama
