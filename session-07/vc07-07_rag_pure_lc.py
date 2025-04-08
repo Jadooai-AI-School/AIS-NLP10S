@@ -12,7 +12,7 @@ from ais_utils.Model_from_LC_Ollama import get_LLM
 
 # Loading and preprocessing the PDF document
 print("\nLoading PDF document using PDFPlumber...")
-loader = PDFPlumberLoader("data/LINUX Easy Linux For Beginners.pdf")
+loader = PyPDFLoader("data/LINUX Easy Linux For Beginners.pdf")
 data = loader.load_and_split()
 print("PDF loading and splitting complete!\n")
 

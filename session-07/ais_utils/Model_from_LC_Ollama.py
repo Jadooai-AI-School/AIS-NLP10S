@@ -1,9 +1,11 @@
 default_model = "gemma2:2b"
 ###########################################################################################################
 # This is a Langchain LLM wrapper for the Ollama model
-from langchain_community.llms import Ollama
+#from langchain_community.llms import Ollama
+from langchain_ollama import OllamaLLM
+
 def get_LLM(model=default_model, temperature=0.2, top_k = 40, top_p = 0.95, num_ctx = 1024, base_url = "http://localhost:11434"):
-    llm = Ollama(
+    llm = OllamaLLM(
         base_url = "http://localhost:11434",
         model = model,
         temperature=temperature,
@@ -15,7 +17,8 @@ def get_LLM(model=default_model, temperature=0.2, top_k = 40, top_p = 0.95, num_
 
 ###########################################################################################################
 #This is a Langchain ChatLLM wrapper for the Ollama model
-from langchain_community.chat_models.ollama import ChatOllama
+#from langchain_community.chat_models.ollama import ChatOllama
+from langchain_ollama import ChatOllama
 def get_chatLLM(model=default_model, base_url = "http://localhost:11434", temperature=0.2, top_k = 40, top_p = 0.95, num_ctx = 1024):
     chat_llm = ChatOllama(
         base_url=base_url,
@@ -96,3 +99,8 @@ if __name__ == "__main__":
     invoke_response = chat.invoke(conversation_prompt).content
     print("Invoke method response :", invoke_response)
     
+
+    print("\nNOW RESPONSE FROM GROQ API CALL")
+    chat_groq = get_chatOpenAI_groq()
+    resp = chat_groq.invoke(conversation_prompt).content
+    print(response)

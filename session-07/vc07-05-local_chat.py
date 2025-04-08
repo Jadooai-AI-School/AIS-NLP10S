@@ -26,5 +26,6 @@ if __name__ == "__main__":
     os.system("clear")
     while True:
         query = input("You: ")
+        if query=='quit': break
         chat(query)
         print("\n")

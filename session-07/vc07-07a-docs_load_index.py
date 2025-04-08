@@ -9,7 +9,10 @@ from langchain_community.document_loaders import (
 )
 from langchain.schema import Document
 from typing import Dict, List
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
+#======================================================================================================
 def load_documents(directories: Dict[str, str]) -> List[Document]:
     """Loads documents from specified directories, extracting essential metadata.
 

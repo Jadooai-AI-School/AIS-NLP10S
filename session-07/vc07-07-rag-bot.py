@@ -7,7 +7,7 @@ from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain.schema import Document
-from langchain_community.document_loaders import PyPDFLoader, PDFPlumberLoader
+from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
 from ais_utils.Model_from_LC_Ollama import get_LLM
@@ -20,7 +20,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # for TF Warning
 
 from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.messages import BaseMessage
-from langchain_core.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 
 class InMemoryHistory(BaseChatMessageHistory, BaseModel):
     """In memory implementation of limited chat message history storing only the last K messages."""
@@ -49,7 +49,7 @@ SYSTEM_MESSAGE = "You are a wise helpful assistant. If you are given a context, 
 SESSION_ID = uuid.uuid4()  # initial session id for memory store
 ###########################################################################################################
 # Load and preprocess the PDF document
-loader = PDFPlumberLoader("data/LINUX Easy Linux For Beginners.pdf")
+loader = PyMuPDFLoader("data/LINUX Easy Linux For Beginners.pdf")
 data: List[Document] = loader.load_and_split()
 
 # Extracting texts from the pages

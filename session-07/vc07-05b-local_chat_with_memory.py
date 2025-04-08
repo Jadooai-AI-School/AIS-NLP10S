@@ -23,7 +23,7 @@ prompt_template = ChatPromptTemplate.from_messages(
 ###########################################################################################################
 from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.messages import BaseMessage
-from langchain_core.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 
 class InMemoryHistory(BaseChatMessageHistory, BaseModel):
     """In memory implementation of limited chat message history storing only the last K messages."""
@@ -65,7 +65,7 @@ if __name__ == "__main__":
     try:
         while True:
             query = input("You: ")
-            if query.lower() == "exit":
+            if query.lower() == "quit":
                 break
             chat(query)
             print("\n")

@@ -69,8 +69,15 @@ import torch
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print('device:', device)
-db_path = '../data/index.db'
 
+# Creating embeddings
+embeddings_api = HuggingFaceEmbeddings(
+    model_name="sentence-transformers/all-MiniLM-L6-v2",
+    model_kwargs={"device": device}  # Use GPU if available
+    )
+
+
+db_path = '../data/index.db'
    
 def create_index(documents: List[Document], split_size: int, overlap: int, index_name = 'my_index', persist:bool =True) -> FAISS:
     """Splits documents into chunks, creates a FAISS index, and stores it.
@@ -91,12 +98,6 @@ def create_index(documents: List[Document], split_size: int, overlap: int, index
     split_docs = text_splitter.split_documents(documents)
     print('Splits:', len(split_docs))
 
-    # Creating embeddings
-    embeddings_api = HuggingFaceEmbeddings(
-        model_name="sentence-transformers/all-MiniLM-L6-v2",
-        model_kwargs={"device": device}  # Use GPU if available
-        )
-    
     # Creating a FAISS vector store from the preprocessed texts
     vector_index_store = FAISS.from_documents(split_docs, embeddings_api)
 
@@ -112,11 +113,6 @@ def load_index_db(index_name: str='my_index') -> FAISS:
     #Loads an existing FAISS index from disk.
     if os.path.exists(db_path):
         # Creating embeddings
-        embeddings_api = HuggingFaceEmbeddings(
-            model_name="sentence-transformers/all-MiniLM-L6-v2",
-            model_kwargs={"device": device}  # Use GPU if available
-            )
-    
         return FAISS.load_local(db_path,
                                 index_name='my_index',
                                 embeddings=embeddings_api,
@@ -143,3 +139,6 @@ if __name__ == "__main__":
 
     create_index(documents, 1000, 100, "my_index", persist=True)
 
+    db = load_index_db()
+    if db:
+        print("vector db successfully loaded")

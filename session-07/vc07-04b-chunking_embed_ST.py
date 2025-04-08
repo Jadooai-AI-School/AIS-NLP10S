@@ -8,8 +8,12 @@ from langchain.prompts import PromptTemplate
 from langchain_community.vectorstores import FAISS
 from ais_utils.Model_from_LC_Ollama import get_LLM
 import faiss
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
 import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"  # Or "true" if you want parallelism
+
 
 # text to write to a local file
 # taken from https://www.theverge.com/2023/3/14/23639313/google-ai-language-model-palm-api-challenge-openai
@@ -86,25 +90,25 @@ def retriever(query, index, k=3):
     # Ensure indices are valid
     valid_indices = [i for i in indices[0] if i < len(documents)] 
     return [documents[i].page_content for i in valid_indices]
-
+#========================================================================================================
 # Asking a question about PaLM
 query = "What is PaLM?"
 print(f"\nAsking the question: '{query}'\n")
 
 # Retrieving relevant context from the FAISS index
-context = retriever(query, index, k=3) 
+context = retriever(query, index, k=3)
+print("CONTEXT", context) 
 context_str = "\n".join(context)
+#print(context_str)
 
 # Preparing the prompt for the LLM
-prompt_input = {"article_title": "PaLM Information", "article_text": context_str} 
 prompt_template = PromptTemplate(
     input_variables=["article_title", "article_text"], 
     template="Write an article on {article_title}: {article_text}"
 )
 
-os.system("clear")  # Clearing the console for the final output
-
 # Running the LLM chain to generate the article
+prompt_input = {"article_title": "PaLM Information", "article_text": context_str} 
 print("Generating an article based on the retrieved context...\n")
 chain = prompt_template | llm
 response = chain.invoke(prompt_input)

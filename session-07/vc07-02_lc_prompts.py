@@ -35,16 +35,15 @@ chat_prompt_template = ChatPromptTemplate.from_messages([
     ('user', '{text}')
     ])
 
-# 2. Create model
-model = get_chatLLM()
+print("2. Chat Prompt:", chat_prompt_template)
 
+# 2. Create model
+model = get_chatLLM(model='mistral')
 # 3. Create parser
 parser = StrOutputParser()
-
 # 4. Create chain
 chain = chat_prompt_template | model | parser
 
-print("2. Chat Prompt:", chat_prompt_template)
 resp = chain.invoke({"text": "I love my cat", "language": "French"})
 print('Translation with Chat:\n', resp)
 print('\n\n')

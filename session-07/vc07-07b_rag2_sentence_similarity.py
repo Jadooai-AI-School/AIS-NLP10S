@@ -51,6 +51,7 @@ print("Ready to answer questions about your documents!\n")
 # Defining a function to ask questions and retrieve answers
 def ask_question_to_book(question: str, verbose=False):
     """Retrieves relevant documents, formulates a prompt, and generates answers using the LLM."""
+
     print(f"Searching for information related to: '{question}'...\n")
     matching_docs = vector_database.similarity_search(query=question, k=3)
 
@@ -70,6 +71,6 @@ print('LLM Responses:')
 print(80*'-')
 ask_question_to_book("What is Linux composed of?")
 print(80*'-')
-ask_question_to_book("Does Linux get Virus?")
+ask_question_to_book("Does Linux get Virus?", verbose=True)
 print(80*'-')
 print('Finished...')
