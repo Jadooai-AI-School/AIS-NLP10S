@@ -172,7 +172,7 @@ class Retriever:
         
         return search_results
 
-    def context(self, query: str, index_file_name='faiss.index', top_k: int = 5) -> str:
+    def context(self, query: str, index_file_name='faiss.index', top_k: int = 7) -> str:
         """Returns concatenated content of the top_k nearest neighbors.
 
         Args:

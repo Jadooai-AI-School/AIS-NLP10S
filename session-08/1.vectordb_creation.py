@@ -6,9 +6,13 @@ from ais_rag.vectordb import FAISSDB  # FAISS-based indexer for vectorizing and 
 import warnings
 warnings.filterwarnings("ignore")
 import os
+from pathlib import Path
 os.system('cls' if os.name == 'nt' else 'clear')
 
-# Defining the path where documents are stored
+os.chdir(Path(__file__).parent)
+print("Current working directory:", os.getcwd())
+# Setting the path to the directory containing documents
+# This path should contain the documents to be processed
 path = 'data'
 
 # Loading documents from the specified path
