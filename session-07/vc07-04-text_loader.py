@@ -7,9 +7,9 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings import HuggingFaceEmbeddings  # Using LangChain's HuggingFaceEmbeddings
 from langchain.vectorstores import FAISS
 from ais_utils.Model_from_LC_Ollama import get_LLM
-# ... (rest of your imports)
-
-# Preparing text data about Google's PaLM model
+from pathlib import Path
+os.chdir(Path(__file__).resolve().parent)  # Setting the working directory to the script's location
+data_path = Path("data")  # Defining the data path
 
 text = """Google's Move to Challenge OpenAI and GPT-3
 Google has opened up access to its advanced AI language model, PaLM (Pathways Language Model), to developers through an API. This move is seen as a challenge to OpenAI's GPT-3 and other large language models.
@@ -32,13 +32,12 @@ Democratization of AI: By making PaLM accessible through an API, Google is enabl
 Ethical Considerations: As with any AI technology, there are potential ethical concerns, such as the misuse of generated content or the spread of misinformation. Responsible development and usage will be crucial as these models become more prevalent.
 """.replace("\n", " ")
 ##################################################################################################
-
 # Writing the text to a local file named 'my_file.txt'
-with open("my_file.txt", "w", encoding="utf-8") as file: 
+with open(data_path/"my_file.txt", "w", encoding="utf-8") as file: 
     file.write(text)
 
 # Loading the text data from the local file using TextLoader
-loader = TextLoader("my_file.txt")
+loader = TextLoader(data_path/"my_file.txt")
 documents = loader.load()  
 
 os.system("clear")  # Clearing the console for a clean output

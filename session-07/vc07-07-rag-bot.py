@@ -14,10 +14,12 @@ from ais_utils.Model_from_LC_Ollama import get_LLM
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"  # to suppress tokenizer warning during embeddings
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # for TF Warning
-
+from pathlib import Path
+os.chdir(Path(__file__).resolve().parent)  # Setting the working directory to the script's location
+data_path = Path("data")  # Defining the data path
+os.system("clear")  # Clear the console for a clean start
 ###########################################################################################################
 # InMemoryHistory class and get_history function
-
 from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.messages import BaseMessage
 from pydantic import BaseModel, Field
@@ -49,7 +51,7 @@ SYSTEM_MESSAGE = "You are a wise helpful assistant. If you are given a context, 
 SESSION_ID = uuid.uuid4()  # initial session id for memory store
 ###########################################################################################################
 # Load and preprocess the PDF document
-loader = PyMuPDFLoader("data/LINUX Easy Linux For Beginners.pdf")
+loader = PyMuPDFLoader(data_path/"LINUX Easy Linux For Beginners.pdf")
 data: List[Document] = loader.load_and_split()
 
 # Extracting texts from the pages

@@ -9,10 +9,15 @@ from langchain_community.document_loaders import PyPDFLoader, PDFPlumberLoader
 from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
 from ais_utils.Model_from_LC_Ollama import get_LLM
+from pathlib import Path
+os.system('clear')
+os.chdir(Path(__file__).resolve().parent)  # Setting the working directory to the script's location
+data_path = Path("data")  # Defining the data path
 
 # Loading and preprocessing the PDF document
 print("\nLoading PDF document using PDFPlumber...")
-loader = PyPDFLoader("data/LINUX Easy Linux For Beginners.pdf")
+
+loader = PyPDFLoader(data_path/"LINUX Easy Linux For Beginners.pdf")
 data = loader.load_and_split()
 print("PDF loading and splitting complete!\n")
 

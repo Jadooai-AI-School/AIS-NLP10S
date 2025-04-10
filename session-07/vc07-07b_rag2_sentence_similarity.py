@@ -10,7 +10,11 @@ from langchain.chains.question_answering import load_qa_chain
 from ais_utils.Model_from_LC_Ollama import get_chatLLM
 from ais_utils.docs_load_index import load_documents, create_index, load_index_db
 
-db_path = './data/index.db'
+from pathlib import Path
+os.chdir(Path(__file__).resolve().parent)  # Setting the working directory to the script's location
+data_path = Path("data")  # Defining the data path
+
+db_path = data_path / 'index.db'
 index_file = 'my_index'
 #if not os.path.exists(db_path):
 #    create_index(load_documents(), 1000, 100, 'my_index', persist=True)

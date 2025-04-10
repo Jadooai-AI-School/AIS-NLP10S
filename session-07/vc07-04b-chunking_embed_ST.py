@@ -13,8 +13,10 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 
 import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"  # Or "true" if you want parallelism
-
-
+from pathlib import Path
+os.chdir(Path(__file__).resolve().parent)  # Setting the working directory to the script's location
+data_path = Path("data")  # Defining the data path
+#========================================================================================================
 # text to write to a local file
 # taken from https://www.theverge.com/2023/3/14/23639313/google-ai-language-model-palm-api-challenge-openai
 text = """Google's Move to Challenge OpenAI and GPT-3
@@ -41,11 +43,11 @@ Ethical Considerations: As with any AI technology, there are potential ethical c
 """
 
 # Writing the text to a local file for further processing
-with open("my_file.txt", "w", encoding="utf-8") as file:  
+with open(data_path/"my_file.txt", "w", encoding="utf-8") as file:  
     file.write(text)
 
 # Loading the text data from the file using TextLoader
-loader = TextLoader("my_file.txt")
+loader = TextLoader(data_path/"my_file.txt")
 documents = loader.load()
 
 # Clearing the console for a clean output
