@@ -93,3 +93,6 @@ $ source .venv/bin/activate
 
 To exit out of environment:
 $ deactivate
+
+NOTE: Further help available at:
+https://docs.astral.sh/uv/pip/environments/ 
