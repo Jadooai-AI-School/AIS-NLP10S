@@ -48,6 +48,10 @@ def generate_story_from_image(image_path: str, prompt: str = "Tell a short story
 # Running the example from main
 if __name__ == "__main__":
     os.system('clear')
-    image_file_path = "ais_utils/data/image2.jpeg"  # 👈 Replace with your image path
-    user_prompt = "Write a short (250 words) magical fairy tale about this scene."
+    #image_file_path = "ais_utils/data/image2.jpeg"  # 👈 Replace with your image path
+    #user_prompt = "Write a short (250 words) magical fairy tale about this scene."
+    #generate_story_from_image(image_file_path, user_prompt)
+
+    image_file_path = "ais_utils/data/Untitled.jpeg"  # 👈 Replace with your image path
+    user_prompt = "Transcribe the English Text"
     generate_story_from_image(image_file_path, user_prompt)
