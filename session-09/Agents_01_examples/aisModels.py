@@ -1,9 +1,10 @@
 import os
 from langchain_groq import ChatGroq
+from langchain_ollama import ChatOllama
+######################################################################################################################
 class GroqChatLLM(ChatGroq):
-    def __init__(self, temperature=0, model_name="llama-3.1-70b-versatile", api_key=None):
+    def __init__(self, temperature=0, model_name="llama-3.3-70b-versatile", api_key=None):
         api_key = api_key or os.environ.get("GROQ_API_KEY")
-        
         if not api_key:
             raise ValueError("GROQ_API_KEY must be provided either as an argument or in the environment variables.")
         
@@ -14,9 +15,8 @@ class GroqChatLLM(ChatGroq):
             api_key=api_key
         )
 ######################################################################################################################
-from langchain_ollama import ChatOllama
 class OllamaLLM(ChatOllama):
-    def __init__(self, temperature=0, model_name="llama3.1"):
+    def __init__(self, temperature=0, model_name="llama3.2"):
         # Directly call the superclass (ChatOllama) initialization with the fixed base URL
         super().__init__(
             temperature=temperature,
