@@ -1,14 +1,14 @@
 import requests
 from pydantic import BaseModel, Field
 from datetime import datetime, timezone
-from agents import tool
+from agents import function_tool
 
 ######################################################################################################
 class OpenMeteoInput(BaseModel):
     latitude: float = Field(..., description="Latitude of the location")
     longitude: float = Field(..., description="Longitude of the location")
 
-@tool(args_schema=OpenMeteoInput)
+@function_tool
 def get_current_temperature(latitude: float, longitude: float) -> str:
     """Fetches and returns the current temperature for the specified coordinates."""
     BASE_URL = "https://api.open-meteo.com/v1/forecast"
@@ -48,9 +48,8 @@ def get_current_temperature(latitude: float, longitude: float) -> str:
 
 ######################################################################################################
 import wikipedia
-from agents import tool
 
-@tool
+@function_tool
 def search_wikipedia(query: str) -> str:
     """Searches Wikipedia and returns summaries of the top relevant pages."""
     try:
@@ -74,12 +73,11 @@ def search_wikipedia(query: str) -> str:
 ######################################################################################################
 from duckduckgo_search import DDGS
 from pydantic import BaseModel, Field
-from agents import tool
 
 class DuckDuckGoNewsInput(BaseModel):
     query: str = Field(..., description="Search query for DuckDuckGo News")
 
-@tool(args_schema=DuckDuckGoNewsInput)
+@function_tool
 def duckduckgo_news_search(query: str) -> str:
     """Perform a news search using DuckDuckGo."""
     try:
@@ -101,3 +99,23 @@ def duckduckgo_news_search(query: str) -> str:
     except Exception as e:
         return f"An error occurred during the news search: {e}"
 ######################################################################################################
+import os
+class SerperSearchInput(BaseModel):
+    query: str = Field(..., description="Search query for Serper")
+
+@function_tool
+def serper_search(query: str) -> str:
+    """Perform a web search using the Serper API."""
+    SERPER_API_KEY = os.getenv("SERPER_API_KEY") # Replace with your actual API key
+    headers = {
+        "X-API-KEY": SERPER_API_KEY,
+        "Content-Type": "application/json",
+    }
+    data = {"q": query}
+    response = requests.post("https://google.serper.dev/search", headers=headers, json=data)
+    if response.status_code == 200:
+        results = response.json()
+        snippets = [item["snippet"] for item in results.get("organic", [])[:3]]
+        return "\n\n".join(snippets)
+    else:
+        raise Exception(f"Serper API request failed with status code {response.status_code}")
