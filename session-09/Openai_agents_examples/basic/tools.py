@@ -10,7 +10,16 @@ class OpenMeteoInput(BaseModel):
 
 @function_tool
 def get_current_temperature(latitude: float, longitude: float) -> str:
-    """Fetches and returns the current temperature for the specified coordinates."""
+    """
+    Fetches and returns the current temperature for the specified coordinates.
+
+    Args:
+        latitude (float): The latitude of the location.
+        longitude (float): The longitude of the location.
+
+    Returns:
+        str: A string containing the current temperature and time.
+    """
     BASE_URL = "https://api.open-meteo.com/v1/forecast"
     params = {
         'latitude': latitude,
@@ -51,7 +60,15 @@ import wikipedia
 
 @function_tool
 def search_wikipedia(query: str) -> str:
-    """Searches Wikipedia and returns summaries of the top relevant pages."""
+    """
+    Searches Wikipedia and returns summaries of the top relevant pages.
+
+    Args:
+        query (str): The search query for Wikipedia.
+
+    Returns:
+        str: A string containing the summaries of the top relevant Wikipedia pages.
+    """
     try:
         page_titles = wikipedia.search(query)
         if not page_titles:
@@ -70,16 +87,24 @@ def search_wikipedia(query: str) -> str:
         return "\n\n".join(summaries)
     except Exception as e:
         return f"An error occurred while searching Wikipedia: {e}"
+
 ######################################################################################################
 from duckduckgo_search import DDGS
-from pydantic import BaseModel, Field
 
 class DuckDuckGoNewsInput(BaseModel):
     query: str = Field(..., description="Search query for DuckDuckGo News")
 
 @function_tool
 def duckduckgo_news_search(query: str) -> str:
-    """Perform a news search using DuckDuckGo."""
+    """
+    Perform a news search using DuckDuckGo.
+
+    Args:
+        query (str): The search query for DuckDuckGo News.
+
+    Returns:
+        str: A string containing the top news articles related to the query.
+    """
     try:
         with DDGS() as ddgs:
             results = ddgs.news(query)
@@ -98,14 +123,24 @@ def duckduckgo_news_search(query: str) -> str:
             return "\n\n".join(formatted_results)
     except Exception as e:
         return f"An error occurred during the news search: {e}"
+
 ######################################################################################################
 import os
+
 class SerperSearchInput(BaseModel):
     query: str = Field(..., description="Search query for Serper")
 
 @function_tool
 def serper_search(query: str) -> str:
-    """Perform a web search using the Serper API."""
+    """
+    Perform a web search using the Serper API.
+
+    Args:
+        query (str): The search query for Serper.
+
+    Returns:
+        str: A string containing the top search results from Serper.
+    """
     SERPER_API_KEY = os.getenv("SERPER_API_KEY") # Replace with your actual API key
     headers = {
         "X-API-KEY": SERPER_API_KEY,
